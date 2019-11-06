@@ -64,4 +64,11 @@ app.get("/api/news", (req, res) => {
   res.send(news);
 });
 
+app.get("/api/news/:page", (req, res) => {
+  getNews(`https://www.sciencenews.org/all-stories/page/${parseInt(req.params.page)}`);
+
+
+  res.send(news);
+});
+
 app.listen(4000, () => console.log("listening on port 4000"));
