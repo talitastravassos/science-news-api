@@ -1,71 +1,67 @@
 const express = require("express");
-const request = require("request");
 const cheerio = require("cheerio");
+const axios = require("axios");
 const app = express();
 
-getNews = () => {
-  let news = [{'jesus': 'cristo'}];
+let news = [];
 
-  request(
-    "https://www.sciencenews.org/all-stories",
-    (error, response, html) => {
-      if (!error && response.statusCode === 200) {
-        const $ = cheerio.load(html);
+getNews = url => {
+  axios.get(url).then(response => {
+    const $ = cheerio.load(response.data);
 
-        // const siteHeading = $(".river-with-sidebar__list___1EfmS");
-        // console.log(siteHeading.text())
+    let posts = [];
 
-        // const output = siteHeading.children("li").text();
-        // console.log(output)
-        let posts = []
+    $(".river-with-sidebar__list___1EfmS li").each((i, el) => {
+      let post = {};
+      post.id = i + 1
+      post.title = $(el)
+        .find(".post-item-river__title___J3spU")
+        .text()
+        .replace(/\s\s+/g, "");
+      post.category = $(el)
+        .find(
+          ".post-item-river__content___2Ae_0 .post-item-river__eyebrow___33ASW"
+        )
+        .text()
+        .replace(/\s\s+/g, "");
+      post.summary = $(el)
+        .find(".post-item-river__excerpt___3ok6B")
+        .text()
+        .replace(/\s\s+/g, "");
+      post.author = $(el)
+        .find(".post-item-river__meta___RSvvi span")
+        .text()
+        .replace(/\s\s+/g, "");
+      post.datetime = $(el)
+        .find(".post-item-river__meta___RSvvi time")
+        .attr().datetime;
+      post.image = $(el)
+        .find("figure a img")
+        .attr().src;
+      post.url = $(el)
+        .find(".post-item-river__title___J3spU a")
+        .attr().href;
 
-        $(".river-with-sidebar__list___1EfmS li").each((i, el) => {
-          let post = {};
-          post.title = $(el)
-            .find(".post-item-river__title___J3spU")
-            .text()
-            .replace(/\s\s+/g, "");
-          post.category = $(el)
-            .find(
-              ".post-item-river__content___2Ae_0 .post-item-river__eyebrow___33ASW"
-            )
-            .text()
-            .replace(/\s\s+/g, "");
-          post.summary = $(el)
-            .find(".post-item-river__excerpt___3ok6B")
-            .text()
-            .replace(/\s\s+/g, "");
-          post.author = $(el)
-            .find(".post-item-river__meta___RSvvi span")
-            .text()
-            .replace(/\s\s+/g, "");
-          post.time = $(el)
-            .find(".post-item-river__meta___RSvvi time")
-            .attr().datetime;
-          post.image = $(el)
-            .find("figure a img")
-            .attr().src;
+      posts.push(post);
+      pushNewsToArray(posts);
+    });
+  });
+};
 
-          posts.push(post)  
-        //   console.log(post);
-        //   return post;
-        });
-
-        console.log(posts)
-      }
-    }
-  );
-
-//   console.log(news);
-  return news
+pushNewsToArray = data => {
+  news = data;
+  console.log(news);
 };
 
 app.get("/", (req, res) => {
-  res.send(getNews());
+  getNews("https://www.sciencenews.org/all-stories");
+  res.send(news);
 });
 
 app.get("/api/news", (req, res) => {
-  res.send([1, 2, 3]);
+  getNews("https://www.sciencenews.org/all-stories");
+
+  res.send(news);
 });
 
 app.listen(4000, () => console.log("listening on port 4000"));
