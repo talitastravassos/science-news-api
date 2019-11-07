@@ -49,8 +49,10 @@ function scraping(url) {
 
 function pushNewsToArray(data) {
   news.data = data;
-//   console.log(news);
+  //   console.log(news);
 }
 
-module.exports.scraping = scraping;
-module.exports.news = news;
+module.exports = {
+  scraping,
+  news
+};
