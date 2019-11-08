@@ -1,8 +1,12 @@
 const express = require("express");
 const app = express();
+const cors = require('cors')
 const routes = require('./routes');
 
 app.use('/api', routes); //register the routes
 app.use(express.static('public'))
+app.use(cors())
 
-app.listen(4000, () => console.log("listening on port 4000"));
+const port = process.env.PORT || 4000 
+
+app.listen(port, () => console.log(`listening on port ${port}`));
