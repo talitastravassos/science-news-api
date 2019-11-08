@@ -21,7 +21,7 @@ router.route("/news").get((req, res) => {
 
   setTimeout(() => {
     res.send(news);
-  }, 4000);
+  }, 3000);
 });
 
 router.route("/news/:page").get((req, res) => {
@@ -32,7 +32,7 @@ router.route("/news/:page").get((req, res) => {
 
   setTimeout(() => {
     res.send(news);
-  }, 4000);
+  }, 3000);
 });
 
 module.exports = router;
