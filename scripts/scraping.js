@@ -1,5 +1,6 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
+const uniqid = require('uniqid');
 
 let news = {};
 
@@ -12,7 +13,7 @@ function scraping(url) {
     // post from web to object
     $(".river-with-sidebar__list___1EfmS li").each((i, el) => {
       let post = {};
-      post.id = i + 1;
+      post.id = uniqid();
       post.title = $(el)
         .find(".post-item-river__title___J3spU")
         .text()
