@@ -15,24 +15,20 @@ router.route("/").get((req, res) => {
   res.send("Welcome to the Science News API");
 });
 
-router.route("/news").get((req, res) => {
+router.route("/news").get(async (req, res) => {
   news.page = 1;
-  scraping("https://www.sciencenews.org/all-stories");
+  await scraping("https://www.sciencenews.org/all-stories");
 
-  setTimeout(() => {
-    res.send(news);
-  }, 3000);
+  res.send(news);
 });
 
-router.route("/news/:page").get((req, res) => {
+router.route("/news/:page").get(async (req, res) => {
   news.page = parseInt(req.params.page);
-  scraping(
+  await scraping(
     `https://www.sciencenews.org/all-stories/page/${parseInt(req.params.page)}`
   );
 
-  setTimeout(() => {
-    res.send(news);
-  }, 3000);
+  res.send(news);
 });
 
 module.exports = router;

@@ -1,12 +1,12 @@
 const cheerio = require("cheerio");
 const axios = require("axios");
-const uniqid = require('uniqid');
+const uniqid = require("uniqid");
 
 let news = {};
 
 //scraping page script
-function scraping(url) {
-  axios.get(url).then(response => {
+const scraping = async url => {
+  await axios.get(url).then(response => {
     const $ = cheerio.load(response.data);
 
     let posts = [];
@@ -46,12 +46,12 @@ function scraping(url) {
     });
     pushNewsToArray(posts);
   });
-}
+};
 
-function pushNewsToArray(data) {
+const pushNewsToArray = data => {
   news.data = data;
   //   console.log(news);
-}
+};
 
 module.exports = {
   scraping,
