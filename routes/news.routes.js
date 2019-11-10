@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const path = require("path");
 
 const scrap = require("../scripts/scraping");
 
@@ -12,7 +13,7 @@ router.use(function(req, res, next) {
 });
 
 router.route("/").get((req, res) => {
-  res.send("Welcome to the Science News API");
+  res.sendFile(path.resolve(__dirname, '../public/index.html'))
 });
 
 router.route("/news").get(async (req, res) => {

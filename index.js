@@ -10,9 +10,11 @@ app.use(function(req, res, next) {
 });
 
 app.use('/api', routes); //register the routes
-app.use(express.static('public'))
 app.use(cors())
 
+app.get('/', (req, res) => {
+    res.redirect('/api')
+})
 
 const port = process.env.PORT || 4000 
 
