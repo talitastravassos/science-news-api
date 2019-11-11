@@ -23,6 +23,7 @@ router.route("/news").get(async (req, res) => {
     await scraping("https://www.sciencenews.org/all-stories");
   } catch (error) {
     console.log(error);
+    res.send(error)
   }
 
   res.send(news);
@@ -38,6 +39,7 @@ router.route("/news/:page").get(async (req, res) => {
     );
   } catch (error) {
     console.log(error);
+    res.send(error)
   }
   res.send(news);
 });
@@ -50,6 +52,7 @@ router.route("/news/category/:category").get(async (req, res) => {
     await scraping(`https://www.sciencenews.org/topic/${category}`);
   } catch (error) {
     console.log(error);
+    res.send(error)
   }
 
   res.send(news);
@@ -65,6 +68,7 @@ router.route("/news/category/:category/:page").get(async (req, res) => {
     );
   } catch (error) {
     console.log(error);
+    res.send(error)
   }
 
   res.send(news);
