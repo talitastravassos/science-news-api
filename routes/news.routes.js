@@ -19,7 +19,11 @@ router.route("/").get((req, res) => {
 router.route("/news").get(async (req, res) => {
   news.page = 1;
 
-  await scraping("https://www.sciencenews.org/all-stories");
+  try {
+    await scraping("https://www.sciencenews.org/all-stories");
+  } catch (error) {
+    console.log(error);
+  }
 
   res.send(news);
 });
@@ -28,10 +32,13 @@ router.route("/news/:page").get(async (req, res) => {
   const { page } = req.params;
   news.page = parseInt(page);
 
-  await scraping(
-    `https://www.sciencenews.org/all-stories/page/${parseInt(page)}`
-  );
-
+  try {
+    await scraping(
+      `https://www.sciencenews.org/all-stories/page/${parseInt(page)}`
+    );
+  } catch (error) {
+    console.log(error);
+  }
   res.send(news);
 });
 
@@ -39,7 +46,11 @@ router.route("/news/category/:category").get(async (req, res) => {
   const { category } = req.params;
   news.page = 1;
 
-  await scraping(`https://www.sciencenews.org/topic/${category}`);
+  try {
+    await scraping(`https://www.sciencenews.org/topic/${category}`);
+  } catch (error) {
+    console.log(error);
+  }
 
   res.send(news);
 });
@@ -48,7 +59,13 @@ router.route("/news/category/:category/:page").get(async (req, res) => {
   const { page, category } = req.params;
   news.page = parseInt(page);
 
-  await scraping(`https://www.sciencenews.org/topic/${category}/page/${page}`);
+  try {
+    await scraping(
+      `https://www.sciencenews.org/topic/${category}/page/${page}`
+    );
+  } catch (error) {
+    console.log(error);
+  }
 
   res.send(news);
 });
