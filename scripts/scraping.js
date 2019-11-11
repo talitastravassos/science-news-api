@@ -24,6 +24,13 @@ const scraping = async url => {
         )
         .text()
         .replace(/\s\s+/g, "");
+      post.category_tag = $(el)
+        .find(
+          ".post-item-river__content___2Ae_0 .post-item-river__eyebrow___33ASW"
+        )
+        .attr()
+        .href.split("/")
+        .pop();
       post.summary = $(el)
         .find(".post-item-river__excerpt___3ok6B")
         .text()
