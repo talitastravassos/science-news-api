@@ -12,3 +12,14 @@ NodeJS API to scrape sciencenews.org and return an object Json with the latest n
 *page param is optional* 
 
 - `https://news-serve-api.herokuapp.com/api/news/{category}/{page?}`
+
+## Development server
+in the directory root:
+
+###  Install dependencies
+
+- `npm install`
+
+### Start server
+
+- `npm run start`
